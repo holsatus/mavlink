@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<mavlink>
+  <include>common.xml</include>
+  <enums>
+
+    <enum name="ANALOG_CONTROL_MODE">
+      <description>Available autopilot modes Holsatus Flight</description>
+      <entry value="1" name="MODE_MANUAL_DIRECT">
+        <description>Inputs are mapped directly to outputs. Typically used for testing purposes</description>
+      </entry>
+      <entry value="2" name="MODE_AUTO_PID_RATE">
+        <description>Inputs are mapped to control the velocity/rate of roll, pitch, yaw, and the absolute amount of thrust</description>
+      </entry>
+      <entry value="3" name="MODE_AUTO_PID_ATT">
+        <description>Inputs are mapped to control the angle of roll, pitch, yaw, and the absolute amount of thrust</description>
+      </entry>
+      <entry value="5" name="MODE_AUTO_PID_VEL">
+        <description>Inputs are mapped to control the velocity in the x and y direction, angular yaw velicity and z-velocity</description>
+      </entry>
+      <entry value="6" name="MODE_AUTO_PID_POS">
+        <description>Inputs are mapped to control the position in the x and y direction, yaw angle and z-position</description>
+      </entry>
+    </enum>
+
+  </enums>
+  <messages>
+
+    <message id="200" name="ARM_DISARM">
+      <description>Command for the vehicle to arm or disarm</description>
+      <field type="uint8_t" name="arm">Request for the vehicle to arm the motors. First four bits should be high for arming, last 4 should be high to force.</field>
+    </message>
+  
+    <message id="205" name="ANALOG_CONTROL">
+      <description>Send 4 analog control values to the vehicle</description>
+      <field type="float[4]" name="aileron">Actuator setpoints</field>
+      <field type="uint8_t" name="mode">What the values control, see ANALOG_CONTROL_MODE</field>
+    </message>
+
+    <message id="220" name="PID_INTERNALS_RATE">
+      <description>Send the internal PID terms for angular rate controllers</description>
+      <field type="uint64_t" name="time_usec">Time since boot, or Unix time stamp, in micro seconds</field>
+      
+      <field type="float" name="x_ref">x-axis reference signal</field>
+      <field type="float" name="x_meas">x-axis measurement or estimate</field>
+      <field type="float" name="x_pred">x-axis prediction (feed-forward)</field>
+      <field type="float" name="x_pid_p">x-axis PID controller P-term</field>
+      <field type="float" name="x_pid_i">x-axis PID controller I-term</field>
+      <field type="float" name="x_pid_dr">x-axis PID controller D-term for reference only</field>
+      <field type="float" name="x_pid_dm">x-axis PID controller D-term for measurement only</field>
+
+      <field type="float" name="y_ref">y-axis reference signal</field>
+      <field type="float" name="y_meas">y-axis measurement or estimate</field>
+      <field type="float" name="y_pred">y-axis prediction (feed-forward)</field>
+      <field type="float" name="y_pid_p">y-axis PID controller P-term</field>
+      <field type="float" name="y_pid_i">y-axis PID controller I-term</field>
+      <field type="float" name="y_pid_dr">y-axis PID controller D-term for reference only</field>
+      <field type="float" name="y_pid_dm">y-axis PID controller D-term for measurement only</field>
+
+      <field type="float" name="z_ref">z-axis reference signal</field>
+      <field type="float" name="z_meas">z-axis measurement or estimate</field>
+      <field type="float" name="z_pred">z-axis prediction (feed-forward)</field>
+      <field type="float" name="z_pid_p">z-axis PID controller P-term</field>
+      <field type="float" name="z_pid_i">z-axis PID controller I-term</field>
+      <field type="float" name="z_pid_dr">z-axis PID controller D-term for reference only</field>
+      <field type="float" name="z_pid_dm">z-axis PID controller D-term for measurement only</field>
+    </message>
+
+  </messages>
+</mavlink>
